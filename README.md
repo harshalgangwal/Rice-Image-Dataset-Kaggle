@@ -48,7 +48,7 @@ kagglehub (if downloading from Kaggle)
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/rice-classification.git
+   https://github.com/harshalgangwal/Rice-Image-Dataset-Kaggle.git
    cd rice-classification
    ```
 
@@ -89,7 +89,6 @@ After training the model, you can:
 ```
 rice-classification/
 ├── Rice_Classification.ipynb  # Main notebook with all code
-├── requirements.txt           # Dependencies
 ├── README.md                  # Project documentation
 ├── rice_classifier_final.h5   # Saved model (after training)
 └── screenshots/               # Application screenshots
