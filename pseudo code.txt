@@ -1,0 +1,82 @@
+ALGORITHM RiceClassification:
+    // Load and prepare dataset
+    FUNCTION prepare_dataset(dataset_path):
+        data = []
+        FOR EACH class_folder IN dataset_path:
+            FOR EACH image IN class_folder:
+                data.append({image_path, class_label})
+        RETURN DataFrame(data)
+    
+    // Split data into training, validation, and test sets
+    FUNCTION split_data(dataframe):
+        train_data, temp_data = split(dataframe, test_size=0.3)
+        val_data, test_data = split(temp_data, test_size=0.5)
+        RETURN train_data, val_data, test_data
+    
+    // Create data generators with augmentation
+    FUNCTION create_generators(train_data, val_data, test_data):
+        train_gen = generator_with_augmentation(train_data)
+        val_gen = generator_with_preprocessing(val_data)
+        test_gen = generator_with_preprocessing(test_data)
+        RETURN train_gen, val_gen, test_gen
+    
+    // Build model using transfer learning
+    FUNCTION build_model(num_classes):
+        base_model = VGG16(weights="imagenet", include_top=FALSE)
+        FREEZE base_model
+        
+        model = Sequential([
+            base_model,
+            Dense(512, activation='relu'),
+            BatchNormalization(),
+            Dropout(0.5),
+            Dense(256, activation='relu'),
+            BatchNormalization(),
+            Dropout(0.3),
+            Dense(num_classes, activation='softmax')
+        ])
+        
+        COMPILE model with metrics=[accuracy, precision, recall, f1_score]
+        RETURN model, base_model
+    
+    // Train model in two phases
+    FUNCTION train_model(model, base_model, train_gen, val_gen):
+        // Phase 1: Train with frozen base
+        callbacks = [EarlyStopping, ModelCheckpoint, ReduceLROnPlateau]
+        history1 = model.fit(train_gen, validation_data=val_gen, epochs=15, callbacks=callbacks)
+        
+        // Phase 2: Fine-tune with unfrozen top layers
+        UNFREEZE last 4 layers of base_model
+        RECOMPILE model with lower learning rate
+        history2 = model.fit(train_gen, validation_data=val_gen, epochs=10, callbacks=callbacks)
+        
+        RETURN history1, history2
+    
+    // Evaluate model performance
+    FUNCTION evaluate_model(model, test_gen):
+        results = model.evaluate(test_gen)
+        predictions = model.predict(test_gen)
+        metrics = calculate_metrics(test_gen.classes, predictions)
+        visualize_confusion_matrix(test_gen.classes, predictions)
+        RETURN metrics
+    
+    // Create UI for prediction
+    FUNCTION create_ui(model):
+        DEFINE preprocess_image(image)
+        DEFINE predict_rice(image)
+        interface = create_gradio_interface(predict_rice)
+        LAUNCH interface
+        
+    // Main execution flow
+    FUNCTION main():
+        df = prepare_dataset(dataset_path)
+        train_df, val_df, test_df = split_data(df)
+        train_gen, val_gen, test_gen = create_generators(train_df, val_df, test_df)
+        model, base_model = build_model(num_classes=5)
+        history1, history2 = train_model(model, base_model, train_gen, val_gen)
+        metrics = evaluate_model(model, test_gen)
+        SAVE model
+        create_ui(model)
+        
+    CALL main()
+END ALGORITHM
