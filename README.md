@@ -49,15 +49,10 @@ kagglehub (if downloading from Kaggle)
 1. Clone this repository:
    ```
    https://github.com/harshalgangwal/Rice-Image-Dataset-Kaggle.git
-   cd rice-classification
+   cd Rice-Image-Dataset-Kaggle
    ```
 
-2. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. Download the dataset:
+2. Download the dataset:
    - Option 1: Download from [Kaggle](https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset)
    - Option 2: Use kagglehub in the notebook
 
@@ -87,7 +82,7 @@ After training the model, you can:
 ## Project Structure
 
 ```
-rice-classification/
+Rice-Image-Dataset-Kaggle/
 ├── Rice_Classification.ipynb                      # Main notebook with all code
 ├── README.md                                      # Project documentation
 ├── rice_classifier_final.h5                       # Saved model (after training)
