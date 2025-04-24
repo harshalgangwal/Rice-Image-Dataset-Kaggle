@@ -88,10 +88,11 @@ After training the model, you can:
 
 ```
 rice-classification/
-├── Rice_Classification.ipynb  # Main notebook with all code
-├── README.md                  # Project documentation
-├── rice_classifier_final.h5   # Saved model (after training)
-└── screenshots/               # Application screenshots
+├── Rice_Classification.ipynb                      # Main notebook with all code
+├── README.md                                      # Project documentation
+├── rice_classifier_final.h5                       # Saved model (after training)
+├── Rice_Classification_video_demo.mp4             # Video
+└── screenshots/                                   # Application screenshots
 ```
 
 ## Performance Metrics
