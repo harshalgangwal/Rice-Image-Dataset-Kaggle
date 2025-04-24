@@ -1,0 +1,19 @@
+flowchart TD
+    A[Load Dataset] --> B[Preprocess Images]
+    B --> C[Split Data: Train/Val/Test]
+    C --> D[Data Augmentation]
+    D --> E[Load Pre-trained VGG16]
+    E --> F[Build Classification Model]
+    F --> G[Train Phase 1: Frozen Base]
+    G --> H[Train Phase 2: Fine-tuning]
+    H --> I[Evaluate Model]
+    I --> J[Generate Metrics & Visualizations]
+    J --> K[Save Model]
+    K --> L[Deploy UI]
+    L --> M[User Image Upload]
+    M --> N[Prediction]
+    
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+    style G fill:#bbf,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+    style N fill:#bfb,stroke:#333,stroke-width:2px
